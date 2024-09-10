@@ -10,5 +10,13 @@ namespace API.Data
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<Campground> Campgrounds { get; set;}
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<City>()
+                .ToTable("SouthAfricanCities", "dbo");
+        }
     }
 }

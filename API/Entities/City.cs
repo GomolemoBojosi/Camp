@@ -1,8 +1,12 @@
-﻿namespace API.Entities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace API.Entities
 {
-    public class Cities
+    [Table("SouthAfricanCities", Schema = "dbo")]
+    public class City
     {
-        public String City { get; set; }
+        public int Id { get; set; }
+        public String CityName { get; set; }
         public String AccentCity { get; set; }
         public String ProvinceName { get; set; }
         public String Latitude { get; set; }

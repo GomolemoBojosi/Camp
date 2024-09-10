@@ -2,6 +2,7 @@
 {
     public class Campground
     {
+        public int Id { get; set; }
         public String Title { get; set; }
         public String Price { get; set; }
         public String Description { get; set; }

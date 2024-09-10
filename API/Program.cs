@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API
 {
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
+           
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -21,6 +22,24 @@ namespace API
             });
 
             var app = builder.Build();
+
+            //Ensure the database is created and seeded
+            using(var scope = app.Services.CreateScope())
+            {
+                var services = scope.ServiceProvider;
+
+                try
+                {
+                    var context = services.GetRequiredService<DataContext>();
+                    context.Database.Migrate(); //ensure database is up to date
+                    await Seeder.SeedData(context); // call the seed method
+                }
+                catch (Exception e)
+                {   
+                    var logger = services.GetRequiredService<ILogger>();
+                    logger.LogError(e, "An error occured while seeding the database");
+                }
+            }
 
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
@@ -36,7 +55,7 @@ namespace API
 
             app.MapControllers();
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
