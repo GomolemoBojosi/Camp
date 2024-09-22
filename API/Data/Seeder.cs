@@ -24,7 +24,7 @@ namespace API.Data
                 var campground = new Campground
                 {
                     Location = $"{randomCity.CityName}, {randomCity.ProvinceName}",
-                    Title = $"{descriptors[random.Next(descriptors.Length)]}"
+                    Title = $"{descriptors[random.Next(descriptors.Length)]} {places[random.Next(places.Length)]}"
                 };
                 context.Campgrounds.Add( campground );
             }

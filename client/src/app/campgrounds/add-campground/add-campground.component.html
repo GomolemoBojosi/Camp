@@ -1,0 +1,28 @@
+<form #addCampForm="ngForm" (submit)="addCampground()" autocomplete="off">
+  <h2 class="text-center text-primary">Add New Campground</h2>
+  <hr />
+  <div class="form-group mt-3">
+    <input
+      type="text"
+      class="form-control"
+      name="title"
+      [(ngModel)]="campground.title"
+      placeholder="title"
+    />
+  </div>
+  <div class="form-group mt-3">
+    <input
+      type="text"
+      class="form-control"
+      name="location"
+      [(ngModel)]="campground.location"
+      placeholder="location"
+    />
+  </div>
+  <div class="form-group text-center mt-3">
+    <button class="btn btn-success mr-2">Add Campground</button>
+    <button class="btn btn-danger mr-2" type="button" (click)="cancel()">
+      Cancel
+    </button>
+  </div>
+</form>
