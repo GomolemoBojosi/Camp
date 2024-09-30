@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Campground } from 'src/app/_models/campground';
 import { CampgroundService } from 'src/app/_services/campground.service';
 
@@ -16,20 +17,28 @@ export class AddCampgroundComponent implements OnInit {
     title: ''
   };
 
-  constructor(private campgroundService: CampgroundService) { }
+  constructor(private campgroundService: CampgroundService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   addCampground() {
     this.campgroundService.addCampground(this.campground).subscribe(results => {
-      console.log(results);
+      this.router.navigateByUrl(`/campgrounds/${results.id}`);
     }, error => {
       console.log(error);
     })
   }
 
+  getCampground(id: number) {
+    this.campgroundService.getCampground(id).subscribe(results => {
+
+    }, error => {
+      console.log(error);
+    })
+  };
+
   cancel() {
-    console.log("Cancelled");
+    this.router.navigateByUrl('/campgrounds');
   }
 }

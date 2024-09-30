@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: 'campgrounds', component: CampgroundsListComponent },
   { path: 'campgrounds/new', component: AddCampgroundComponent },
   { path: 'campgrounds/:id', component: CampgroundsDetailComponent },
-  { path: '**', component: CampgroundsListComponent, pathMatch: 'full' }
+  { path: '**', component: CampgroundsListComponent }
 ];
 
 @NgModule({

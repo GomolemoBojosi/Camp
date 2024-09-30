@@ -7,5 +7,10 @@
         public String Price { get; set; }
         public String Description { get; set; }
         public String Location { get; set; }
+
+        public static implicit operator Task<object>(Campground v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

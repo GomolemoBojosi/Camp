@@ -1,4 +1,8 @@
 <h1>Camprounds</h1>
+<div>
+  <a routerLink="/campgrounds/new">Add new campground</a>
+</div>
+<br />
 <div class="row">
   <li *ngFor="let camp of campgrounds">
     <a routerLink="/campgrounds/{{ camp.id }}"
