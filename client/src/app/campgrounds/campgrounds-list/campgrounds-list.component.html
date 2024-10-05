@@ -1,12 +1,5 @@
-<h1>Camprounds</h1>
-<div>
-  <a routerLink="/campgrounds/new">Add new campground</a>
-</div>
-<br />
 <div class="row">
-  <li *ngFor="let camp of campgrounds">
-    <a routerLink="/campgrounds/{{ camp.id }}"
-      >{{ camp.title }}, {{ camp.location }}</a
-    >
-  </li>
+  <div *ngFor="let campground of campgrounds" class="col-2">
+    <app-campground-cards [campground]="campground"></app-campground-cards>
+  </div>
 </div>

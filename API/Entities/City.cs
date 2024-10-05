@@ -6,11 +6,11 @@ namespace API.Entities
     public class City
     {
         public int Id { get; set; }
-        public String CityName { get; set; }
-        public String AccentCity { get; set; }
-        public String ProvinceName { get; set; }
-        public String Latitude { get; set; }
-        public String Longitude { get; set; }
+        public string CityName { get; set; }
+        public string AccentCity { get; set; }
+        public string ProvinceName { get; set; }
+        public string Latitude { get; set; }
+        public string Longitude { get; set; }
         public int ProvinceID { get; set; }
     }
 }

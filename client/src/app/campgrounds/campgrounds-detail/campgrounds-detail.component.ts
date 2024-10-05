@@ -27,7 +27,16 @@ export class CampgroundsDetailComponent implements OnInit {
         console.log(error);
       })
     }
+  };
 
+  onDeleteCampground() {
+    const id = parseInt(this.route.snapshot.paramMap.get('id'));
+
+    this.campgroundService.deleteCampground(id).subscribe(results => {
+      this.router.navigateByUrl('/campgrounds');
+    }, error => {
+      console.log(error);
+    });
   };
 
   back() {

@@ -1,0 +1,25 @@
+<div *ngIf="campground">
+  <div class="card mb-4" style="">
+    <div class="card-img-wrapper">
+      <img
+        src="{{ campground.image }}"
+        class="card-img-top"
+        alt="{{ campground.title }}"
+      />
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{ campground.title }}</h5>
+      <p class="card-text">
+        {{ campground.description }}
+      </p>
+      <p class="card-text">
+        <small class="text-muted">
+          {{ campground.location }}
+        </small>
+      </p>
+      <a routerLink="/campgrounds/{{ campground.id }}" class="btn btn-primary"
+        >View {{ campground.title }}</a
+      >
+    </div>
+  </div>
+</div>

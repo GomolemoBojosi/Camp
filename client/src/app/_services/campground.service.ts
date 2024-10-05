@@ -2,12 +2,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Campground } from '../_models/campground';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CampgroundService {
-  baseUrl = 'https://localhost:7283/api/';
+  baseUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) { }
 
@@ -21,5 +22,13 @@ export class CampgroundService {
 
   addCampground(campground: Campground): Observable<Campground> {
     return this.http.post<Campground>(this.baseUrl + 'campgrounds/new', campground);
+  }
+
+  deleteCampground(id: number): Observable<Campground> {
+    return this.http.delete<Campground>(this.baseUrl + 'campgrounds/' + id);
+  }
+
+  updateCampground(id: number, campground: Campground): Observable<Campground> {
+    return this.http.put<Campground>(`${this.baseUrl}/${id}`, campground);
   }
 }

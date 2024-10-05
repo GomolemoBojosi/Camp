@@ -10,6 +10,8 @@ import { CampgroundsDetailComponent } from './campgrounds/campgrounds-detail/cam
 import { NavComponent } from './nav/nav.component';
 import { AddCampgroundComponent } from './campgrounds/add-campground/add-campground.component';
 import { FormsModule } from '@angular/forms';
+import { HomeComponent } from './home/home.component';
+import { CampgroundCardsComponent } from './campgrounds/campground-cards/campground-cards.component';
 
 @NgModule({
   declarations: [
@@ -17,14 +19,16 @@ import { FormsModule } from '@angular/forms';
     CampgroundsListComponent,
     CampgroundsDetailComponent,
     NavComponent,
-    AddCampgroundComponent
+    AddCampgroundComponent,
+    HomeComponent,
+    CampgroundCardsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

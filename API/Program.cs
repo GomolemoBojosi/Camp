@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace API
 {
-    public static class Program
+    public class Program
     {
         public static async Task Main(string[] args)
         {
@@ -36,8 +36,8 @@ namespace API
                     await Seeder.SeedData(context); // call the seed method
                 }
                 catch (Exception e)
-                {   
-                    var logger = services.GetRequiredService<ILogger>();
+                {
+                    var logger = services.GetRequiredService<ILogger<Program>>();
                     logger.LogError(e, "An error occured while seeding the database");
                 }
             }

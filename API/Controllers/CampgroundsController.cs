@@ -37,6 +37,8 @@ namespace API.Controllers
             {
                 Title = campgroundDto.Title,
                 Location = campgroundDto.Location,
+                Price = campgroundDto.Price,
+                Description = campgroundDto.Description,
             };
 
             _context.Campgrounds.Add(campground);
