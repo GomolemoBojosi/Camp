@@ -13,11 +13,13 @@
         {{ campground.description }}
       </p>
       <p class="card-text">
-        <small class="text-muted">
+        <small class="text-muted location-text">
           {{ campground.location }}
         </small>
       </p>
-      <a routerLink="/campgrounds/{{ campground.id }}" class="btn btn-primary"
+      <a
+        routerLink="/campgrounds/{{ campground.id }}"
+        class="btn btn-primary details-button"
         >View {{ campground.title }}</a
       >
     </div>

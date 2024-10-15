@@ -16,8 +16,8 @@ namespace API.Data
 
             var cities = await context.Cities.ToListAsync();
 
-            var descriptors = new[] { "Forest", "Ancient", "Petrified", "Roaring" }; // Example descriptors
-            var places = new[] { "Flats", "Village", "Canyon", "Pond" }; // Example places
+            var descriptors = new[] { "Forest", "Ancient", "Petrified", "Roaring" }; 
+            var places = new[] { "Flats", "Village", "Canyon", "Pond" }; 
 
             for( var i = 0; i < 50; i++ )
             {

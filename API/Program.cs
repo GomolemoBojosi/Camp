@@ -1,5 +1,6 @@
 
 using API.Data;
+using API.Middleware;
 using Microsoft.EntityFrameworkCore;
 
 namespace API
@@ -43,11 +44,7 @@ namespace API
             }
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseHttpsRedirection();
 

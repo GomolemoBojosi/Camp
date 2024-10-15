@@ -1,32 +1,34 @@
-<div class="row mb-5">
-  <div class="col-6 offset-3">
-    <div class="card" style="">
-      <img
-        src="{{ campground.image }}"
-        class="card-img-top"
-        alt="{{ campground.title }}"
-      />
-      <div class="card-body">
-        <h5 class="card-title">{{ campground.title }}</h5>
-        <p class="card-text">
-          {{ campground.description }}
-        </p>
-      </div>
-      <ul class="list-group list-group-flush">
-        <li class="list-group-item text-muted">{{ campground.location }}</li>
-        <li class="list-group-item">
-          {{ campground.price | number : "1.2-2" }}
-        </li>
-      </ul>
-      <div class="card-body">
-        <a routerLink="#" class="card-link btn btn-warning">Edit</a>
-        <div class="d-inline deleteBtn">
-          <button class="btn btn-danger" (click)="onDeleteCampground()">
-            Delete
-          </button>
+<div *ngIf="campground">
+  <div class="row mb-5">
+    <div class="col-6 offset-3">
+      <div class="card" style="">
+        <img
+          src="{{ campground.image }}"
+          class="card-img-top"
+          alt="{{ campground.title }}"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ campground.title }}</h5>
+          <p class="card-text">
+            {{ campground.description }}
+          </p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item text-muted">{{ campground.location }}</li>
+          <li class="list-group-item">
+            {{ campground.price | number : "1.2-2" }}
+          </li>
+        </ul>
+        <div class="card-body">
+          <a routerLink="#" class="card-link btn btn-warning">Edit</a>
+          <div class="d-inline deleteBtn">
+            <button class="btn btn-danger" (click)="onDeleteCampground()">
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- --------------------------------------------------------- -->
 </div>
-<!-- --------------------------------------------------------- -->

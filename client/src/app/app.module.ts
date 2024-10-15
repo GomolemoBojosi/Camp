@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -12,6 +12,10 @@ import { AddCampgroundComponent } from './campgrounds/add-campground/add-campgro
 import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './home/home.component';
 import { CampgroundCardsComponent } from './campgrounds/campground-cards/campground-cards.component';
+import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
+import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { NotFoundComponent } from './errors/not-found/not-found.component';
+import { ServerErrorComponent } from './errors/server-error/server-error.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,10 @@ import { CampgroundCardsComponent } from './campgrounds/campground-cards/campgro
     NavComponent,
     AddCampgroundComponent,
     HomeComponent,
-    CampgroundCardsComponent
+    CampgroundCardsComponent,
+    TestErrorsComponent,
+    NotFoundComponent,
+    ServerErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +37,9 @@ import { CampgroundCardsComponent } from './campgrounds/campground-cards/campgro
     BrowserAnimationsModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
