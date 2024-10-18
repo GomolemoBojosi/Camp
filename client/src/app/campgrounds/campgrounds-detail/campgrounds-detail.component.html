@@ -1,7 +1,8 @@
-<div *ngIf="campground">
+<div *ngIf="campground" class="container">
   <div class="row mb-5">
-    <div class="col-6 offset-3">
-      <div class="card" style="">
+    <!-- Campground Card -->
+    <div class="col-md-6">
+      <div class="card">
         <img
           src="{{ campground.image }}"
           class="card-img-top"
@@ -20,15 +21,48 @@
           </li>
         </ul>
         <div class="card-body">
-          <a routerLink="#" class="card-link btn btn-warning">Edit</a>
-          <div class="d-inline deleteBtn">
-            <button class="btn btn-danger" (click)="onDeleteCampground()">
-              Delete
-            </button>
-          </div>
+          <a routerLink="#" class="card-link btn btn-warning me-3">
+            <i class="fas fa-edit"></i>
+          </a>
+          <button class="btn btn-danger" (click)="onDeleteCampground()">
+            <i class="fas fa-trash"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Review Form -->
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Leave a Review</h5>
+          <form (ngSubmit)="onSubmitReview()">
+            <div class="mb-3">
+              <label class="form-label">Your Review</label>
+              <textarea
+                class="form-control"
+                id="reviewText"
+                rows="3"
+                [(ngModel)]="review.text"
+                name="text"
+              ></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="mt-3">
+              <label class="form-label">Rating</label>
+              <input
+                class="form-range"
+                id="rating"
+                [(ngModel)]="review.rating"
+                name="rating"
+                type="range"
+                min="1"
+                max="5"
+              />
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
-  <!-- --------------------------------------------------------- -->
 </div>

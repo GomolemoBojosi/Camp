@@ -16,10 +16,10 @@ namespace API.Data
 
             var cities = await context.Cities.ToListAsync();
 
-            var descriptors = new[] { "Forest", "Ancient", "Petrified", "Roaring" }; 
-            var places = new[] { "Flats", "Village", "Canyon", "Pond" }; 
+            var descriptors = new[] { "Forest", "Ancient", "Petrified", "Roaring" };
+            var places = new[] { "Flats", "Village", "Canyon", "Pond" };
 
-            for( var i = 0; i < 50; i++ )
+            for (var i = 0; i < 50; i++)
             {
                 var randomCity = cities[random.Next(cities.Count)];
                 var price = random.Next(10, 30).ToString();

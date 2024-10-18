@@ -9,6 +9,8 @@
         public string Description { get; set; }
         public string Location { get; set; }
 
+        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+
         public static implicit operator Task<object>(Campground v)
         {
             throw new NotImplementedException();

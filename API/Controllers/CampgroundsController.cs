@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,59 +9,47 @@ namespace API.Controllers
 {
     public class CampgroundsController : BaseApiController
     {
-        private readonly DataContext _context;
+        private readonly ICampgroundRepository _campgroundRepository;
 
-        public CampgroundsController(DataContext context)
+        public CampgroundsController(ICampgroundRepository campgroundRepository)
         {
-            _context = context;
+            _campgroundRepository = campgroundRepository;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Campground>>> GetCampgrounds()
         {
-            return await _context.Campgrounds.ToListAsync();
+            var results = await _campgroundRepository.GetAllCampgroundsAsync();
+            return Ok(results);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Campground>> GetCampgroundById(int id)
         {
-            var results = await _context.Campgrounds.FindAsync(id);
-            return results;
+            var results = await _campgroundRepository.GetCampgroundAsync(id);
+            return Ok(results);
         }
 
         [HttpPost("new")]
         public async Task<ActionResult<Campground>> AddCampground(CampgroundDto campgroundDto)
         {
-            if (await CampgroundExists(campgroundDto.Title)) return BadRequest("Campground already exists");
-
-            var campground = new Campground()
-            {
-                Title = campgroundDto.Title,
-                Location = campgroundDto.Location,
-                Price = campgroundDto.Price,
-                Description = campgroundDto.Description,
-            };
-
-            _context.Campgrounds.Add(campground);
-            await _context.SaveChangesAsync();
-
-            return campground;
-
+            var results = await _campgroundRepository.AddCampgroundAsync(campgroundDto);
+            return Ok(results);
         }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateCampground(int id, CampgroundDto campgroundDto)
         {
-            var campground = await GetCampgroundById(id);
+            var campground = await _campgroundRepository.GetCampgroundAsync(id);
 
             if (campground == null) return BadRequest("Campground doesn't exist");
 
-            campground.Value.Title = campgroundDto.Title;
-            campground.Value.Location = campgroundDto.Location;
+            campground.Title = campgroundDto.Title;
+            campground.Location = campgroundDto.Location;
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _campgroundRepository.UpdateCampgroundAsync(campground);
             }
             catch (Exception ex) 
             {
@@ -71,23 +60,9 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteCampground(int id)
+        public void DeleteCampground(int id)
         {
-            var campground =await _context.Campgrounds.FindAsync(id);
-
-            if (campground == null) return BadRequest("Cannot delete, Campground doesn't exist");
-
-            _context.Campgrounds.Remove(campground);
-
-            await _context.SaveChangesAsync();
-
-            return NoContent();
-
-        }
-
-        private async Task<bool> CampgroundExists(string title)
-        {
-            return await _context.Campgrounds.AnyAsync(c => c.Title == title.ToLower());
+            _campgroundRepository.DeleteCampgroundAsync(id);
         }
     }
 }
