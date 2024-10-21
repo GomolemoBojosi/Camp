@@ -9,7 +9,7 @@
         public string Description { get; set; }
         public string Location { get; set; }
 
-        public ICollection<Review> Reviews { get; set; } = new List<Review>();
+        public ICollection<Review> Reviews { get; set; }
 
         public static implicit operator Task<object>(Campground v)
         {

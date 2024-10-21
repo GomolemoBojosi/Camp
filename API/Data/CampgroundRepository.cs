@@ -1,6 +1,8 @@
 ﻿using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,10 +12,12 @@ namespace API.Data
     public class CampgroundRepository : ICampgroundRepository
     {
         private readonly DataContext _context;
+        private readonly IMapper _mapper;
 
-        public CampgroundRepository(DataContext context)
+        public CampgroundRepository(DataContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         public async Task<ActionResult<Campground>> AddCampgroundAsync(CampgroundDto campgroundDto)
@@ -50,12 +54,31 @@ namespace API.Data
 
         public async Task<IEnumerable<Campground>> GetAllCampgroundsAsync()
         {
-            return await _context.Campgrounds.ToListAsync();
+            return await _context.Campgrounds
+                .Include(r => r.Reviews)
+                .ToListAsync();
         }
 
         public async Task<Campground> GetCampgroundAsync(int id)
         {
-            return await _context.Campgrounds.SingleOrDefaultAsync(x => x.Id == id);
+            return await _context.Campgrounds
+                .Include(r => r.Reviews)
+                .SingleOrDefaultAsync(x => x.Id == id);
+        }
+
+        public async Task<CampgroundDto> GetCampgroundDtoAsync(int id)
+        {
+            return await _context.Campgrounds
+                .Where(x => x.Id == id)
+                .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<IEnumerable<CampgroundDto>> GetCampgroundsDtoAsync()
+        {
+            return await _context.Campgrounds
+                .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
         public async Task<bool> SaveAllAsync()
@@ -68,6 +91,7 @@ namespace API.Data
             _context.Campgrounds.Update(campground);
             await _context.SaveChangesAsync();
         }
+        
         private async Task<bool> CampgroundExists(string title)
         {
             return await _context.Campgrounds.AnyAsync(c => c.Title == title.ToLower());

@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241017131833_addReviewToCampV3")]
-    partial class addReviewToCampV3
+    [Migration("20241020084630_extendCampgroundEntity")]
+    partial class extendCampgroundEntity
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

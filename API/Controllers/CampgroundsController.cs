@@ -2,6 +2,7 @@
 using API.DTOs;
 using API.Entities;
 using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,21 +11,24 @@ namespace API.Controllers
     public class CampgroundsController : BaseApiController
     {
         private readonly ICampgroundRepository _campgroundRepository;
+        private readonly IMapper _mapper;
 
-        public CampgroundsController(ICampgroundRepository campgroundRepository)
+        public CampgroundsController(ICampgroundRepository campgroundRepository, IMapper mapper)
         {
             _campgroundRepository = campgroundRepository;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Campground>>> GetCampgrounds()
+        public async Task<ActionResult<IEnumerable<CampgroundDto>>> GetCampgrounds()
         {
             var results = await _campgroundRepository.GetAllCampgroundsAsync();
+
             return Ok(results);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Campground>> GetCampgroundById(int id)
+        public async Task<ActionResult<CampgroundDto>> GetCampgroundById(int id)
         {
             var results = await _campgroundRepository.GetCampgroundAsync(id);
             return Ok(results);

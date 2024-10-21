@@ -12,5 +12,7 @@ namespace API.Interfaces
         Task<ActionResult<Campground>> AddCampgroundAsync(CampgroundDto campgroundDto);
         Task UpdateCampgroundAsync(Campground campground);
         Task DeleteCampgroundAsync(int id);
+        Task<IEnumerable<CampgroundDto>> GetCampgroundsDtoAsync();
+        Task<CampgroundDto> GetCampgroundDtoAsync(int id);
     }
 }

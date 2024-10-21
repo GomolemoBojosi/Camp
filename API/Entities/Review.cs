@@ -8,8 +8,8 @@ namespace API.Entities
         public int Id { get; set; }
         public string Body { get; set; }
         public int Rating { get; set; }
+        public Campground Campground { get; set; } 
+        public int  CampgroundId { get; set; }
 
-        public virtual int CampgroundId { get; set; }
-        public virtual Campground Campground { get; set; }
     }
 }

@@ -13,7 +13,7 @@ namespace API
         {
             var builder = WebApplication.CreateBuilder(args);
 
-           
+
             // Add services to the container.
 
             builder.Services.AddControllers();
@@ -22,6 +22,11 @@ namespace API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.AddApplicationServices(builder.Configuration);
+            builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+            });
 
             var app = builder.Build();
 
