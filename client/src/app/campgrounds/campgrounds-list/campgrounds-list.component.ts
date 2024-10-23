@@ -18,6 +18,7 @@ export class CampgroundsListComponent implements OnInit {
 
   getCampgrounds() {
     this.campgroundService.getCamprounds().subscribe(results => {
+      console.log(results)
       this.campgrounds = results;
     }, error => {
       console.log(error);

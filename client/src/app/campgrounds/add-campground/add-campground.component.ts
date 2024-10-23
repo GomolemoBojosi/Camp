@@ -15,7 +15,8 @@ export class AddCampgroundComponent implements OnInit {
     location: '',
     price: '',
     title: '',
-    image: ''
+    image: '',
+    reviews: []
   };
 
   constructor(private campgroundService: CampgroundService, private router: Router) { }

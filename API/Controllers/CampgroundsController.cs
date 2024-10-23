@@ -22,7 +22,7 @@ namespace API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CampgroundDto>>> GetCampgrounds()
         {
-            var results = await _campgroundRepository.GetAllCampgroundsAsync();
+            var results = await _campgroundRepository.GetCampsAsync();
 
             return Ok(results);
         }
@@ -30,8 +30,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CampgroundDto>> GetCampgroundById(int id)
         {
-            var results = await _campgroundRepository.GetCampgroundAsync(id);
-            return Ok(results);
+            return await _campgroundRepository.GetCampAsync(id);
         }
 
         [HttpPost("new")]

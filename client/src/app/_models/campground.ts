@@ -1,3 +1,5 @@
+import { Review } from "./review";
+
 export interface Campground {
     id: number;
     title: string;
@@ -5,4 +7,6 @@ export interface Campground {
     description: string;
     location: string;
     image: string;
+
+    reviews: Review[];
 }

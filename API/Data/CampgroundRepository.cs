@@ -59,14 +59,15 @@ namespace API.Data
                 .ToListAsync();
         }
 
-        public async Task<Campground> GetCampgroundAsync(int id)
+        public async Task<IEnumerable<CampgroundDto>> GetCampsAsync()
         {
             return await _context.Campgrounds
-                .Include(r => r.Reviews)
-                .SingleOrDefaultAsync(x => x.Id == id);
+                .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
         }
 
-        public async Task<CampgroundDto> GetCampgroundDtoAsync(int id)
+
+        public async Task<CampgroundDto> GetCampAsync(int id)
         {
             return await _context.Campgrounds
                 .Where(x => x.Id == id)
@@ -74,12 +75,13 @@ namespace API.Data
                 .SingleOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<CampgroundDto>> GetCampgroundsDtoAsync()
+        public async Task<Campground> GetCampgroundAsync(int id)
         {
             return await _context.Campgrounds
-                .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
+                .Include(r => r.Reviews)
+                .SingleOrDefaultAsync(x => x.Id == id);
         }
+
 
         public async Task<bool> SaveAllAsync()
         {
