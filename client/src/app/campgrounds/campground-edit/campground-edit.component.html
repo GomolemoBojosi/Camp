@@ -1,0 +1,51 @@
+<div class="row" *ngIf="campground">
+  <div class="col-4">
+    <h1>Edit Campground</h1>
+  </div>
+
+  <div>
+    <div class="alert alert-info" *ngIf="editCampForm.dirty">
+      <strong>Information: </strong> You have made changes. Any unsaved changes
+      will be lost
+    </div>
+  </div>
+
+  <form
+    [formGroup]="editCampForm"
+    (submit)="updateCampground()"
+    autocomplete="off"
+  >
+    <div class="form-group mt-3">
+      <h4>Title:</h4>
+      <input type="text" class="form-control" formControlName="title" />
+    </div>
+    <div class="form-group mt-3">
+      <h4>Location:</h4>
+      <input type="text" class="form-control" formControlName="location" />
+    </div>
+    <div class="form-group mt-3">
+      <h4>Image Url:</h4>
+      <input type="text" class="form-control" formControlName="image" />
+    </div>
+    <div class="form-group mt-3">
+      <h4>Price:</h4>
+      <input type="text" class="form-control" formControlName="price" />
+    </div>
+    <div class="form-group mt-3">
+      <h4>Description:</h4>
+      <textarea
+        class="form-control"
+        formControlName="description"
+        rows="6"
+      ></textarea>
+    </div>
+    <div class="form-group mt-3">
+      <button [disabled]="!editCampForm.dirty" class="btn btn-success mr-2">
+        Update Campground
+      </button>
+      <button class="btn btn-danger cancel" type="button" (click)="back()">
+        Back
+      </button>
+    </div>
+  </form>
+</div>

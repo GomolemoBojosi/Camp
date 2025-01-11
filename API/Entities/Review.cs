@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace API.Entities
 {
@@ -8,8 +9,6 @@ namespace API.Entities
         public int Id { get; set; }
         public string Body { get; set; }
         public int Rating { get; set; }
-        public Campground Campground { get; set; } 
         public int  CampgroundId { get; set; }
-
     }
 }

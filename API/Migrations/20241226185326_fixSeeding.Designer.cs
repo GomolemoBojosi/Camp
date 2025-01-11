@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241020084630_extendCampgroundEntity")]
-    partial class extendCampgroundEntity
+    [Migration("20241226185326_fixSeeding")]
+    partial class fixSeeding
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,10 +80,7 @@ namespace API.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SouthAfricanCities", "dbo", t =>
-                        {
-                            t.ExcludeFromMigrations();
-                        });
+                    b.ToTable("SouthAfricanCities", "dbo");
                 });
 
             modelBuilder.Entity("API.Entities.Review", b =>
@@ -118,6 +115,15 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("PasswordHash")
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<byte[]>("PasswordSalt")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
@@ -128,13 +134,11 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Review", b =>
                 {
-                    b.HasOne("API.Entities.Campground", "Campground")
+                    b.HasOne("API.Entities.Campground", null)
                         .WithMany("Reviews")
                         .HasForeignKey("CampgroundId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Campground");
                 });
 
             modelBuilder.Entity("API.Entities.Campground", b =>

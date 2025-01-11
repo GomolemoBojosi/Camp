@@ -15,13 +15,15 @@
   overflow: hidden;
 }
 
-.details-button {
+.location-text {
+  display: inline-block;
+  max-width: 100%;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.location-text {
+.details-button {
   display: inline-block;
   max-width: 100%;
   white-space: nowrap;

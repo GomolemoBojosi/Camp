@@ -28,7 +28,7 @@ export class CampgroundService {
     return this.http.delete<Campground>(this.baseUrl + 'campgrounds/' + id);
   }
 
-  updateCampground(id: number, campground: Campground): Observable<Campground> {
-    return this.http.put<Campground>(`${this.baseUrl}/${id}`, campground);
+  updateCampground(campground: Campground): Observable<Campground> {
+    return this.http.put<Campground>(this.baseUrl + 'campgrounds', campground);
   }
 }

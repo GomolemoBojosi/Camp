@@ -2,23 +2,21 @@
   <div class="card mb-4">
     <div class="card-img-wrapper">
       <img
-        src="{{ campground.image }}"
+        [src]="campground.image"
         class="card-img-top"
-        alt="{{ campground.title }}"
+        [alt]="campground.title"
       />
     </div>
     <div class="card-body">
       <h5 class="card-title">{{ campground.title }}</h5>
-      <p class="card-text">
-        {{ campground.description }}
-      </p>
+      <p class="card-text">{{ campground.description }}</p>
       <p class="card-text">
         <small class="text-muted location-text">
-          {{ campground.location }}
+          {{ campground.location | titlecase }}
         </small>
       </p>
       <a
-        routerLink="/campgrounds/{{ campground.id }}"
+        [routerLink]="'/campgrounds/' + campground.id"
         class="btn btn-primary details-button"
         >View {{ campground.title }}</a
       >

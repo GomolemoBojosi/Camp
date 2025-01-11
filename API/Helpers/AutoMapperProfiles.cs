@@ -9,7 +9,9 @@ namespace API.Helpers
         public AutoMapperProfiles()
         {
             CreateMap<Campground, CampgroundDto>();
-            CreateMap<Review, ReviewDto>();
+            CreateMap<Review, ReviewDto>()
+                .ForMember(x => x.CampgroundId, opt => opt.Ignore());
+            CreateMap<CampgroundUpdateDto, Campground>();
         }
     }
 }

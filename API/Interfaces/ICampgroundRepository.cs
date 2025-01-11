@@ -7,12 +7,10 @@ namespace API.Interfaces
     public interface ICampgroundRepository
     {
         Task<bool> SaveAllAsync();
-        Task<IEnumerable<Campground>> GetAllCampgroundsAsync();
-        Task<Campground> GetCampgroundAsync(int id);
         Task<ActionResult<Campground>> AddCampgroundAsync(CampgroundDto campgroundDto);
-        Task UpdateCampgroundAsync(Campground campground);
-        Task DeleteCampgroundAsync(int id);
-        Task<IEnumerable<CampgroundDto>> GetCampsAsync();
-        Task<CampgroundDto> GetCampAsync(int id);
+        Task<Campground> DeleteCampgroundAsync(int id);
+        Task<IEnumerable<CampgroundDto>> GetCampgroundsAsync();
+        Task<CampgroundDto> GetCampgroundByIdAsync(int id);
+        Task<Campground> UpdateCampgroundAsync(CampgroundUpdateDto campgroundUpdateDto);
     }
 }

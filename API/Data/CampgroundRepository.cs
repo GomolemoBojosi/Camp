@@ -33,6 +33,7 @@ namespace API.Data
                 Location = campgroundDto.Location,
                 Price = campgroundDto.Price,
                 Description = campgroundDto.Description,
+                Image = campgroundDto.Image,
             };
 
             _context.Campgrounds.Add(campground);
@@ -41,38 +42,18 @@ namespace API.Data
             return campground;
         }
 
-        public async Task DeleteCampgroundAsync(int id)
+        public async Task<Campground> DeleteCampgroundAsync(int id)
         {
-            var campground = await GetCampgroundAsync(id);
+            var campground = await _context.Campgrounds.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (campground == null) throw new("Cannot delete, Campground doesn't exist");
+            if (campground != null)
+            {
+                _context.Campgrounds.Remove(campground);
+                await _context.SaveChangesAsync();
+                return campground;
+            }
 
-            _context.Campgrounds.Remove(campground);
-
-            await _context.SaveChangesAsync();
-        }
-
-        public async Task<IEnumerable<Campground>> GetAllCampgroundsAsync()
-        {
-            return await _context.Campgrounds
-                .Include(r => r.Reviews)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<CampgroundDto>> GetCampsAsync()
-        {
-            return await _context.Campgrounds
-                .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
-                .ToListAsync();
-        }
-
-
-        public async Task<CampgroundDto> GetCampAsync(int id)
-        {
-            return await _context.Campgrounds
-                .Where(x => x.Id == id)
-                .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync();
+            return null;
         }
 
         public async Task<Campground> GetCampgroundAsync(int id)
@@ -82,18 +63,44 @@ namespace API.Data
                 .SingleOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<IEnumerable<CampgroundDto>> GetCampgroundsAsync()
+        {
+            return await _context.Campgrounds
+                .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+
+        public async Task<CampgroundDto> GetCampgroundByIdAsync(int id)
+        {
+            var results = await _context.Campgrounds
+                .Where(x => x.Id == id)
+                .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
+                .SingleOrDefaultAsync();
+            return results;
+        }
 
         public async Task<bool> SaveAllAsync()
         {
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task UpdateCampgroundAsync(Campground campground)
+        public async Task<Campground> UpdateCampgroundAsync(CampgroundUpdateDto campgroundUpdateDto)
         {
-            _context.Campgrounds.Update(campground);
+            var campground = await GetCampgroundAsync(campgroundUpdateDto.Id);
+
+            if (campground == null)
+            {
+                throw new("campground not found");
+            }
+
+            _mapper.Map(campgroundUpdateDto, campground);
+
             await _context.SaveChangesAsync();
+
+            return campground;
         }
-        
+
         private async Task<bool> CampgroundExists(string title)
         {
             return await _context.Campgrounds.AnyAsync(c => c.Title == title.ToLower());

@@ -1,5 +1,39 @@
-<div class="row">
+<!-- <div class="row">
   <div *ngFor="let campground of campgrounds" class="col-3">
     <app-campground-cards [campground]="campground"></app-campground-cards>
   </div>
+</div> -->
+
+<div class="row">
+  <!-- Loading Placeholders -->
+  <ng-container *ngIf="isLoading; else cardsContent">
+    <div class="col-3" *ngFor="let placeholder of placeholders">
+      <div class="card mb-4">
+        <div class="card-img-wrapper placeholder-glow">
+          <div class="card-img-top placeholder"></div>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title placeholder-glow">
+            <span class="placeholder col-6"></span>
+          </h5>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-7"></span>
+            <span class="placeholder col-4"></span>
+            <span class="placeholder col-6"></span>
+          </p>
+          <p class="card-text placeholder-glow">
+            <span class="placeholder col-5"></span>
+          </p>
+          <button class="btn btn-primary disabled placeholder col-4"></button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Campground Cards -->
+  <ng-template #cardsContent>
+    <div *ngFor="let campground of campgrounds" class="col-3">
+      <app-campground-cards [campground]="campground"></app-campground-cards>
+    </div>
+  </ng-template>
 </div>

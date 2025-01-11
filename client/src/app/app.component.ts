@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { User } from './_models/User';
+import { AccountService } from './_services/account.service';
 
 @Component({
   selector: 'app-root',
@@ -12,27 +14,17 @@ export class AppComponent implements OnInit {
   campgrounds: any;
   users: any;
 
-  constructor(private http: HttpClient) {
+  constructor(private accountService: AccountService) {
 
   }
 
   ngOnInit() {
-    this.getCampgrounds();
+    this.setCurrentUser();
   }
 
-  getCities() {
-    this.http.get('https://localhost:7283/api/cities').subscribe(results => {
-      this.cities = results;
-    }, error => {
-      console.log(error);
-    });
+  setCurrentUser() {
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    this.accountService.setCurrentUser(user);
   }
 
-  getCampgrounds() {
-    this.http.get('https://localhost:7283/api/campgrounds').subscribe(results => {
-      this.campgrounds = results;
-    }, error => {
-      console.log(error);
-    });
-  }
 }

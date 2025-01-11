@@ -1,1 +1,9 @@
-<p>home works!</p>
+<div>
+  <div *ngIf="!registerMode">
+    <a class="btn btn-primary mr-2" (click)="registerToggle()">Register</a>
+  </div>
+
+  <div *ngIf="registerMode">
+    <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
+  </div>
+</div>

@@ -11,18 +11,16 @@ namespace API.Controllers
     public class CampgroundsController : BaseApiController
     {
         private readonly ICampgroundRepository _campgroundRepository;
-        private readonly IMapper _mapper;
 
-        public CampgroundsController(ICampgroundRepository campgroundRepository, IMapper mapper)
+        public CampgroundsController(ICampgroundRepository campgroundRepository)
         {
             _campgroundRepository = campgroundRepository;
-            _mapper = mapper;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<CampgroundDto>>> GetCampgrounds()
         {
-            var results = await _campgroundRepository.GetCampsAsync();
+            var results = await _campgroundRepository.GetCampgroundsAsync();
 
             return Ok(results);
         }
@@ -30,42 +28,35 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<CampgroundDto>> GetCampgroundById(int id)
         {
-            return await _campgroundRepository.GetCampAsync(id);
+            return await _campgroundRepository.GetCampgroundByIdAsync(id);
         }
 
         [HttpPost("new")]
         public async Task<ActionResult<Campground>> AddCampground(CampgroundDto campgroundDto)
         {
             var results = await _campgroundRepository.AddCampgroundAsync(campgroundDto);
-            return Ok(results);
+            return Ok(results.Value);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UpdateCampground(int id, CampgroundDto campgroundDto)
+        [HttpPut]
+        public async Task<ActionResult> UpdateCampground(CampgroundUpdateDto campgroundUpdateDto)
         {
-            var campground = await _campgroundRepository.GetCampgroundAsync(id);
+            var campground = await _campgroundRepository.UpdateCampgroundAsync(campgroundUpdateDto);
 
-            if (campground == null) return BadRequest("Campground doesn't exist");
+            return Ok(campground);
 
-            campground.Title = campgroundDto.Title;
-            campground.Location = campgroundDto.Location;
-
-            try
-            {
-                await _campgroundRepository.UpdateCampgroundAsync(campground);
-            }
-            catch (Exception ex) 
-            {
-                return BadRequest(ex.Message);
-            }
-
-             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public void DeleteCampground(int id)
+        public async Task<ActionResult<Campground>> DeleteCampground(int id)
         {
-            _campgroundRepository.DeleteCampgroundAsync(id);
+            var campgroundToDelete = await _campgroundRepository.GetCampgroundByIdAsync(id);
+
+            if(campgroundToDelete == null) {
+                return NotFound("");
+            }
+
+            return await _campgroundRepository.DeleteCampgroundAsync(id);
         }
     }
 }

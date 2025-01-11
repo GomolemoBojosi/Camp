@@ -8,12 +8,6 @@
         public string Price { get; set; }
         public string Description { get; set; }
         public string Location { get; set; }
-
         public ICollection<Review> Reviews { get; set; }
-
-        public static implicit operator Task<object>(Campground v)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

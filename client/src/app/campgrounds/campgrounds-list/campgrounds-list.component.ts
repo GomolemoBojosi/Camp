@@ -9,6 +9,8 @@ import { CampgroundService } from 'src/app/_services/campground.service';
 })
 export class CampgroundsListComponent implements OnInit {
   campgrounds: Campground[] = [];
+  isLoading = true;
+  placeholders = Array(8);
 
   constructor(private campgroundService: CampgroundService) { }
 
@@ -18,11 +20,11 @@ export class CampgroundsListComponent implements OnInit {
 
   getCampgrounds() {
     this.campgroundService.getCamprounds().subscribe(results => {
-      console.log(results)
       this.campgrounds = results;
+      this.isLoading = false;
     }, error => {
       console.log(error);
+      this.isLoading = false;
     })
   }
-
 }

@@ -19,8 +19,13 @@ namespace API.Data
             modelBuilder.Entity<City>()
                 .ToTable("SouthAfricanCities", "dbo");
 
-           
-            modelBuilder.Entity<City>().Metadata.SetIsTableExcludedFromMigrations(true);
+            modelBuilder.Entity<Campground>()
+            .HasMany(c => c.Reviews)
+            .WithOne()
+            .HasForeignKey(r => r.CampgroundId)
+            .OnDelete(DeleteBehavior.Cascade);  
+
+            //modelBuilder.Entity<City>().Metadata.SetIsTableExcludedFromMigrations(true);
         }
     }
 }

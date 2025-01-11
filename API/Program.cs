@@ -22,12 +22,7 @@ namespace API
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             builder.AddApplicationServices(builder.Configuration);
-            //builder.Services.AddControllers()
-            //.AddJsonOptions(options =>
-            //{
-            //    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
-            //    options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
-            //});
+
 
             var app = builder.Build();
 
@@ -39,7 +34,7 @@ namespace API
                 try
                 {
                     var context = services.GetRequiredService<DataContext>();
-                    context.Database.Migrate(); //ensure database is up to date
+                    await context.Database.MigrateAsync(); //ensure database is up to date
                     await Seeder.SeedData(context); // call the seed method
                 }
                 catch (Exception e)
@@ -55,6 +50,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseCors(policy => policy.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

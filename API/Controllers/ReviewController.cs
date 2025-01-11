@@ -10,46 +10,28 @@ namespace API.Controllers
 {
     public class ReviewController : BaseApiController
     {
-        private readonly DataContext _context;
         private readonly ICampgroundRepository _campground;
+        private readonly IReviewRepository _reviewRepository;
 
-        public ReviewController(DataContext context, ICampgroundRepository campground)
+        public ReviewController(
+            ICampgroundRepository campground,
+            IReviewRepository reviewRepository)
         {
-            _context = context;
             _campground = campground;
+            _reviewRepository = reviewRepository;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CreateReview(ReviewDto reviewDto)
+        [HttpPost("add-review")]
+        public async Task<ActionResult<Review>> CreateReview(ReviewDto reviewDto)
         {
-            if (reviewDto == null)
-            {
-                throw new Exception("Review cannot be null");
-            }
-
-            var campground = await _context.Campgrounds.FindAsync(reviewDto.CampgroundId);
-
-            if(campground == null) { return NotFound("Campground not found"); }
-
-            var review = new Review
-            {
-                Body = reviewDto.Body,
-                CampgroundId = campground.Id,
-                Rating = reviewDto.Rating,
-            };
-
-            await _context.Reviews.AddAsync(review);
-            await _context.SaveChangesAsync();
-
-            return Ok(review);
+            var results = await _reviewRepository.CreateReviewAsync(reviewDto);
+            return Ok(results);
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Review>>> GetReviews()
         {
-            var results = await _context.Reviews
-                .Include(r => r.Campground)
-                .ToListAsync();
+            var results = await _reviewRepository.GetReviewsAsync();
             return Ok(results);
         }
     }

@@ -10,7 +10,7 @@ namespace API.DTOs
         [Required]
         public string Image { get; set; }
         [Required]
-        public string Price { get; set; }
+        public string Price { get; set; } 
         [Required]
         public string Description { get; set; }
         [Required]
