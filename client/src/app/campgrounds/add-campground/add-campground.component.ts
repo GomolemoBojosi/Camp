@@ -2,7 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/_models/User';
 import { CampgroundService } from 'src/app/_services/campground.service';
+import { UserService } from 'src/app/_services/user.service';
 
 @Component({
   selector: 'app-add-campground',
@@ -11,6 +13,7 @@ import { CampgroundService } from 'src/app/_services/campground.service';
 })
 export class AddCampgroundComponent implements OnInit {
   addCampgroundForm: FormGroup;
+  user: User;
 
   constructor(
     private campgroundService: CampgroundService,
@@ -34,7 +37,14 @@ export class AddCampgroundComponent implements OnInit {
   }
 
   addCampground() {
-    this.campgroundService.addCampground(this.addCampgroundForm.value).subscribe(results => {
+    const user = JSON.parse(localStorage.getItem('user'));
+    const campData = {
+      ...this.addCampgroundForm.value,
+      userId: user.id
+    }
+
+    this.campgroundService.addCampground(campData).subscribe(results => {
+      console.log(results);
       this.toastr.success("camp site successfully added");
       this.router.navigateByUrl(`/campgrounds/${results.id}`);
     }, error => {

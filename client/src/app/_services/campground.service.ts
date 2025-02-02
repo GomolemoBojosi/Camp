@@ -4,6 +4,12 @@ import { Campground } from '../_models/campground';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
+const httpOptions = {
+  headers: new HttpHeaders({
+    Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('user'))?.token
+  })
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -12,11 +18,11 @@ export class CampgroundService {
 
   constructor(private http: HttpClient) { }
 
-  getCamprounds(): Observable<Campground[]> {
+  getCamprounds() {
     return this.http.get<Campground[]>(this.baseUrl + 'campgrounds');
   }
 
-  getCampground(id: number): Observable<Campground> {
+  getCampground(id: number) {
     return this.http.get<Campground>(this.baseUrl + 'campgrounds/' + id);
   }
 

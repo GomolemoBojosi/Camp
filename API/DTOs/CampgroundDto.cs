@@ -16,5 +16,6 @@ namespace API.DTOs
         [Required]
         public string Location { get; set; }
         public ICollection<ReviewDto> Reviews { get; set; }
+        public int UserId { get; set; }
     }
 }

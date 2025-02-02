@@ -2,6 +2,7 @@ import { Component, HostListener, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { User } from 'src/app/_models/User';
 import { Campground } from 'src/app/_models/campground';
 import { CampgroundService } from 'src/app/_services/campground.service';
 
@@ -13,6 +14,7 @@ import { CampgroundService } from 'src/app/_services/campground.service';
 export class CampgroundEditComponent implements OnInit {
   editCampForm: FormGroup;
   campground: Campground;
+  currentUser: User;
 
   @HostListener('window:beforeunload', ['$event']) unloadNotification($event: any) {
     if (this.editCampForm.dirty) {
@@ -29,6 +31,7 @@ export class CampgroundEditComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getCurrentLoggedInUser();
     this.getCampground();
     this.createForm();
   }
@@ -65,12 +68,16 @@ export class CampgroundEditComponent implements OnInit {
 
   updateCampground() {
     const id = parseInt(this.router.snapshot.paramMap.get("id"));
+    if (this.campground.userId != this.currentUser.id) {
+      this.toastr.error("You do not have permission to do that");
+      this.route.navigateByUrl(`/campgrounds/${this.campground.id}`);
+    }
+
     if (this.editCampForm.valid) {
       const updatedCampground = {
         ...this.campground,
         ...this.editCampForm.value
       };
-
       this.campgroundService.updateCampground({ ...updatedCampground, id }).subscribe(results => {
         this.toastr.success('Campground updated successfully');
         this.editCampForm.reset(updatedCampground);
@@ -78,6 +85,11 @@ export class CampgroundEditComponent implements OnInit {
         this.toastr.error(error);
       });
     }
+  }
+
+  getCurrentLoggedInUser() {
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    this.currentUser = user;
   }
 
   back() {

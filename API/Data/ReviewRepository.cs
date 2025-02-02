@@ -19,10 +19,6 @@ namespace API.Data
 
         public async Task<ActionResult<Review>> CreateReviewAsync(ReviewDto reviewDto)
         {
-            if(await CheckifReviewExists(reviewDto.Id)) {
-                throw new Exception("Review already exists");
-            }
-
             var campground = await _campgroundRepository.GetCampgroundByIdAsync(reviewDto.CampgroundId);
 
             if(campground == null)
@@ -35,6 +31,7 @@ namespace API.Data
                 Body = reviewDto.Body,
                 Rating = reviewDto.Rating,
                 CampgroundId = campground.Id,
+                UserId = reviewDto.userId
             };
 
             _context.Reviews.Add(review);

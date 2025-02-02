@@ -13,6 +13,7 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this WebApplicationBuilder builder, IConfigurationBuilder config)
         {
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICampgroundRepository, CampgroundRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<ITokenService, TokenService>();

@@ -1,4 +1,4 @@
-<div *ngIf="campground" class="container">
+<div *ngIf="campground && campground.user" class="container">
   <div class="row mb-5">
     <!-- Campground Card -->
     <div class="col-md-6">
@@ -16,22 +16,27 @@
         </div>
         <ul class="list-group list-group-flush">
           <li class="list-group-item text-muted">{{ campground.location }}</li>
+          <li class="list-group-item text-muted">
+            {{ campground.user.username }}
+          </li>
           <li class="list-group-item">
             {{ campground.price | number : "1.2-2" }}
           </li>
         </ul>
-        <div class="card-body">
-          <a
-            routerLink="/campground/edit/{{ campground.id }}"
-            class="card-link btn btn-warning me-3"
-            (click)="onEditCampground()"
-          >
-            edit
-          </a>
-          <button class="btn btn-danger" (click)="onDeleteCampground()">
-            Delete
-          </button>
-        </div>
+        <ng-container *ngIf="campground.userId === currentUser.id">
+          <div class="card-body">
+            <a
+              routerLink="/campground/edit/{{ campground.id }}"
+              class="card-link btn btn-warning me-3"
+              (click)="onEditCampground()"
+            >
+              edit
+            </a>
+            <button class="btn btn-danger" (click)="onDeleteCampground()">
+              Delete
+            </button>
+          </div>
+        </ng-container>
       </div>
     </div>
     <div class="col-md-6">

@@ -12,6 +12,7 @@ namespace API.Helpers
             CreateMap<Review, ReviewDto>()
                 .ForMember(x => x.CampgroundId, opt => opt.Ignore());
             CreateMap<CampgroundUpdateDto, Campground>();
+            CreateMap<User, UserDto>();
         }
     }
 }

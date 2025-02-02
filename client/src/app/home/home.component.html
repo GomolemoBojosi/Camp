@@ -1,7 +1,9 @@
 <div>
-  <div *ngIf="!registerMode">
-    <a class="btn btn-primary mr-2" (click)="registerToggle()">Register</a>
-  </div>
+  <ng-container *ngIf="(accountService.currentUser$ | async) === null">
+    <div *ngIf="!registerMode">
+      <a class="btn btn-primary mr-2" (click)="registerToggle()">Register</a>
+    </div>
+  </ng-container>
 
   <div *ngIf="registerMode">
     <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>

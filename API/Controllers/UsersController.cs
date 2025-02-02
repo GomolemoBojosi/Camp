@@ -1,5 +1,7 @@
 ﻿using API.Data;
+using API.DTOs;
 using API.Entities;
+using API.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,10 +11,12 @@ namespace API.Controllers
     public class UsersController : BaseApiController
     {
         private readonly DataContext _context;
+        private readonly IUserRepository _userRepository;
 
-        public UsersController(DataContext context)
+        public UsersController(DataContext context, IUserRepository userRepository)
         {
             _context = context;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -24,9 +28,10 @@ namespace API.Controllers
         //e.g //api/users/3
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            return await _context.Users.FindAsync(id);
+            var result = await _userRepository.GetUserAsync(id);
+            return Ok(result);
         }
     }
 }

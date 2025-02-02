@@ -10,5 +10,6 @@ namespace API.Entities
         public string Body { get; set; }
         public int Rating { get; set; }
         public int  CampgroundId { get; set; }
+        public int UserId { get; set; }
     }
 }

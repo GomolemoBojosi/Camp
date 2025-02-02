@@ -24,6 +24,7 @@ namespace API.Data
                 var randomCity = cities[random.Next(cities.Count)];
                 var price = random.Next(10, 30).ToString();
                 var randomImageNumber = random.Next(1, 1000);
+                var randomUserNumber = random.Next(1, 3);
 
                 var campground = new Campground
                 {
@@ -31,7 +32,8 @@ namespace API.Data
                     Title = $"{descriptors[random.Next(descriptors.Length)]} {places[random.Next(places.Length)]}",
                     Image = $"https://picsum.photos/400?random={randomImageNumber}",
                     Description = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s,",
-                    Price = price
+                    Price = price,
+                    UserId = randomUserNumber
                 };
 
                 context.Campgrounds.Add(campground);

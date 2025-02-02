@@ -34,6 +34,7 @@ namespace API.Data
                 Price = campgroundDto.Price,
                 Description = campgroundDto.Description,
                 Image = campgroundDto.Image,
+                UserId = campgroundDto.UserId,
             };
 
             _context.Campgrounds.Add(campground);

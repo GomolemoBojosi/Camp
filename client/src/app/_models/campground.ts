@@ -1,3 +1,4 @@
+import { User } from "./User";
 import { Review } from "./review";
 
 export interface Campground {
@@ -9,4 +10,6 @@ export interface Campground {
     image: string;
 
     reviews: Review[];
+    user: User;
+    userId: number;
 }
