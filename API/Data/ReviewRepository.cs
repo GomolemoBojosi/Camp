@@ -44,10 +44,5 @@ namespace API.Data
         {
             return await _context.Reviews.ToListAsync();
         }
-
-        private async Task<bool> CheckifReviewExists(int id)
-        {
-            return await _context.Reviews.AnyAsync(x => x.Id == id);
-        }
     }
 }

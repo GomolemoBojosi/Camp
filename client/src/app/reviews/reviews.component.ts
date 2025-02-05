@@ -34,6 +34,7 @@ export class ReviewsComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getCurrentLoggedInUser();
     this.createForm();
     this.getReviews();
   }
@@ -48,19 +49,24 @@ export class ReviewsComponent implements OnInit {
   getReviews() {
     this.reviewService.getReviews().subscribe(results => {
       this.reviews = results;
-      this.reviews.forEach(r => {
-        this.getUser(r);
+      this.reviews.forEach(review => {
+        this.getUser(review);
       })
       this.reviewsLoaded.emit(results);
     }, error => {
       this.toastr.error(error);
     })
-  }
+  };
 
   getUser(review: Review) {
-    this.userService.getUser(review.id).subscribe(results => {
+    this.userService.getUser(review.userId).subscribe(results => {
       this.author = results;
-    })
+    });
+  }
+
+  getCurrentLoggedInUser() {
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    this.currentUser = user;
   }
 
   createReview() {
@@ -78,6 +84,10 @@ export class ReviewsComponent implements OnInit {
     }, error => {
       this.toastr.error("error occured while creating a review");
     })
+  }
+
+  delete() {
+    console.log("deleted");
   }
 
   reset() {
