@@ -3,7 +3,6 @@ using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -43,18 +42,19 @@ namespace API.Data
             return campground;
         }
 
-        public async Task<Campground> DeleteCampgroundAsync(int id)
+        public async Task<bool> DeleteCampgroundAsync(int id)
         {
             var campground = await _context.Campgrounds.FirstOrDefaultAsync(x => x.Id == id);
 
-            if (campground != null)
+            if (campground == null)
             {
-                _context.Campgrounds.Remove(campground);
-                await _context.SaveChangesAsync();
-                return campground;
+                throw new Exception("campground not found");
             }
 
-            return null;
+            _context.Campgrounds.Remove(campground);
+            await _context.SaveChangesAsync();
+   
+            return true;
         }
 
         public async Task<Campground> GetCampgroundAsync(int id)
@@ -71,7 +71,6 @@ namespace API.Data
                 .ToListAsync();
         }
 
-
         public async Task<CampgroundDto> GetCampgroundByIdAsync(int id)
         {
             var results = await _context.Campgrounds
@@ -79,11 +78,6 @@ namespace API.Data
                 .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
                 .SingleOrDefaultAsync();
             return results;
-        }
-
-        public async Task<bool> SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
         }
 
         public async Task<Campground> UpdateCampgroundAsync(CampgroundUpdateDto campgroundUpdateDto)

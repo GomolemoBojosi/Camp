@@ -8,5 +8,6 @@ namespace API.Interfaces
     {
         Task<IEnumerable<Review>> GetReviewsAsync();
         Task<ActionResult<Review>> CreateReviewAsync(ReviewDto reviewDto);
+        Task<bool> DeleteReviewAsync(int id);
     }
 }

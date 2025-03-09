@@ -48,15 +48,15 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Campground>> DeleteCampground(int id)
+        public async Task<IActionResult> DeleteCampground(int id)
         {
             var campgroundToDelete = await _campgroundRepository.GetCampgroundByIdAsync(id);
 
             if(campgroundToDelete == null) {
-                return NotFound("");
+                return NotFound();
             }
 
-            return await _campgroundRepository.DeleteCampgroundAsync(id);
+            return NoContent();
         }
     }
 }

@@ -21,6 +21,7 @@ export class ReviewsComponent implements OnInit {
   campground: Campground;
   currentUser: User;
   author: User;
+  stars = Array(5).fill(0);
 
   @Input() filteredReviews: Review[] = [];
   @Output() reviewsLoaded = new EventEmitter<Review[]>();
@@ -69,6 +70,10 @@ export class ReviewsComponent implements OnInit {
     this.currentUser = user;
   }
 
+  setRating(value: number) {
+    this.addReviewForm.get('rating')?.setValue(value);
+  }
+
   createReview() {
     const id = parseInt(this.route.snapshot.paramMap.get('id'));
     const user = JSON.parse(localStorage.getItem('user')) as User;
@@ -93,4 +98,33 @@ export class ReviewsComponent implements OnInit {
   reset() {
 
   }
+
+  getRatingClass(rating: number) {
+    if (rating === 5) {
+      return 'rating-green';
+    } else if (rating === 4) {
+      return 'rating-yellow';
+    } else if (rating === 3) {
+      return 'rating-orange';
+    } else if (rating === 2) {
+      return 'rating-red';
+    } else {
+      return 'rating-gray';
+    }
+  }
+
+  getStarClass(rating: number) {
+    if (rating === 5) {
+      return 'star-green';
+    } else if (rating === 4) {
+      return 'star-yellow';
+    } else if (rating === 3) {
+      return 'star-orange';
+    } else if (rating === 2) {
+      return 'star-red';
+    } else {
+      return 'star-gray';
+    }
+  }
+
 }

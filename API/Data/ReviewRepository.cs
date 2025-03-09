@@ -40,6 +40,20 @@ namespace API.Data
             return review; 
         }
 
+        public async Task<bool> DeleteReviewAsync(int id)
+        {
+            var reviewToDelete = await _context.Reviews.FindAsync(id);
+
+            if(reviewToDelete == null) {
+                throw new Exception("review not found");
+            }
+
+            _context.Reviews.Remove(reviewToDelete);
+            await _context.SaveChangesAsync();
+
+            return true; 
+        }
+
         public async Task<IEnumerable<Review>> GetReviewsAsync()
         {
             return await _context.Reviews.ToListAsync();

@@ -17,10 +17,10 @@
         <ul class="list-group list-group-flush">
           <li class="list-group-item text-muted">{{ campground.location }}</li>
           <li class="list-group-item text-muted">
-            {{ campground.user.username }}
+            Submitted by {{ campground.user.username }}
           </li>
           <li class="list-group-item">
-            {{ campground.price | number : "1.2-2" }}
+            {{ campground.price | number : "1.2-2" }} / Night
           </li>
         </ul>
         <ng-container *ngIf="campground.userId === currentUser.id">

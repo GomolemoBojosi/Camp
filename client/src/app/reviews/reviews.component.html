@@ -11,16 +11,20 @@
           placeholder="Leave a review"
         ></textarea>
       </div>
+      <hr />
       <div class="mt-3">
-        <label class="form-label">Rating</label>
-        <input
-          class="form-range"
-          type="range"
-          min="1"
-          max="5"
-          formControlName="rating"
-        />
+        <div class="star-rating">
+          <span
+            *ngFor="let star of stars; let i = index"
+            class="star"
+            [class.filled]="i < addReviewForm.get('rating')?.value"
+            (click)="setRating(i + 1)"
+          >
+            ★
+          </span>
+        </div>
       </div>
+      <hr />
       <button [disabled]="!addReviewForm.dirty" class="btn btn-primary">
         Submit
       </button>
@@ -31,7 +35,12 @@
 <ng-container *ngFor="let review of filteredReviews">
   <div *ngIf="author" class="card mb-3">
     <div class="card-body">
-      <h5 class="card-title">Rating: {{ review.rating }}</h5>
+      <h5 class="card-title">
+        <span [ngClass]="getRatingClass(review.rating)">
+          {{ review.rating }}
+        </span>
+        <span [ngClass]="getStarClass(review.rating)"> ★ </span>
+      </h5>
       <h6 class="card-subtitle mb-2 text-muted">
         Submitted by: {{ author.username | titlecase }}
       </h6>

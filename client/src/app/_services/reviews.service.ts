@@ -19,4 +19,8 @@ export class ReviewsService {
   createReview(review: Review): Observable<Review> {
     return this.http.post<Review>(`${this.baseUrl}review/add-review`, review);
   }
+
+  deleteReview(id: number): Observable<Review> {
+    return this.http.delete<Review>(`${this.baseUrl}/review/${id}`);
+  }
 }

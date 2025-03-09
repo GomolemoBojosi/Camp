@@ -1,0 +1,53 @@
+.star-rating {
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.star {
+  color: lightgray; /* Default star color */
+  cursor: pointer;
+}
+
+.star.filled {
+  color: gold; /* Filled star color */
+}
+
+.rating-green {
+  color: green;
+}
+
+.rating-yellow {
+  color: rgba(44, 77, 14, 0.342);
+}
+
+.rating-orange {
+  color: orange;
+}
+
+.rating-red {
+  color: red;
+}
+
+.rating-gray {
+  color: gray;
+}
+
+.star-green {
+  color: green;
+}
+
+.star-yellow {
+  color: rgba(44, 77, 14, 0.342);
+}
+
+.star-orange {
+  color: orange;
+}
+
+.star-red {
+  color: red;
+}
+
+.star-gray {
+  color: gray;
+}

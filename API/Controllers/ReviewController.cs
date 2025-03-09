@@ -34,6 +34,20 @@ namespace API.Controllers
             var results = await _reviewRepository.GetReviewsAsync();
             return Ok(results);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteReview(int id)
+        {
+            var success = await _reviewRepository.DeleteReviewAsync(id);
+
+            if (!success)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
     }
 }
 
