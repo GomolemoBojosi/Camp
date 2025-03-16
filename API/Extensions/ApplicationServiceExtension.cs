@@ -13,10 +13,12 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this WebApplicationBuilder builder, IConfigurationBuilder config)
         {
+            builder.Services.Configure<CloudinarySettings>(builder.Configuration.GetSection("CloudinarySettings"));
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<ICampgroundRepository, CampgroundRepository>();
             builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
             builder.Services.AddScoped<ITokenService, TokenService>();
+            builder.Services.AddScoped<IPhotoService, PhotoService>();
             builder.Services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             builder.Services.AddDbContext<DataContext>(options =>
             {

@@ -10,14 +10,11 @@ namespace API.Controllers
 {
     public class ReviewController : BaseApiController
     {
-        private readonly ICampgroundRepository _campground;
         private readonly IReviewRepository _reviewRepository;
 
         public ReviewController(
-            ICampgroundRepository campground,
             IReviewRepository reviewRepository)
         {
-            _campground = campground;
             _reviewRepository = reviewRepository;
         }
 

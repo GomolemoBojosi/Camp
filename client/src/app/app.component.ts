@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { User } from './_models/User';
 import { AccountService } from './_services/account.service';
@@ -10,10 +9,6 @@ import { AccountService } from './_services/account.service';
 })
 export class AppComponent implements OnInit {
   title = 'Camps';
-  cities: any;
-  campgrounds: any;
-  users: any;
-
   constructor(private accountService: AccountService) {
 
   }
@@ -26,5 +21,4 @@ export class AppComponent implements OnInit {
     const user: User = JSON.parse(localStorage.getItem('user'));
     this.accountService.setCurrentUser(user);
   }
-
 }

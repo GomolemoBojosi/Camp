@@ -56,7 +56,8 @@ namespace API.Data
 
         public async Task<IEnumerable<Review>> GetReviewsAsync()
         {
-            return await _context.Reviews.ToListAsync();
+            var results = await _context.Reviews.ToListAsync();
+            return results;
         }
     }
 }

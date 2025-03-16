@@ -11,6 +11,7 @@ namespace API.Controllers
     public class CampgroundsController : BaseApiController
     {
         private readonly ICampgroundRepository _campgroundRepository;
+        private readonly IPhotoService _photoService;
 
         public CampgroundsController(ICampgroundRepository campgroundRepository)
         {
@@ -32,7 +33,7 @@ namespace API.Controllers
         }
 
         [HttpPost("new")]
-        public async Task<ActionResult<Campground>> AddCampground(CampgroundDto campgroundDto)
+        public async Task<ActionResult<Campground>> AddCampground([FromForm] CampgroundDto campgroundDto)
         {
             var results = await _campgroundRepository.AddCampgroundAsync(campgroundDto);
             return Ok(results.Value);

@@ -7,7 +7,6 @@ namespace API.DTOs
         public int Id { get; set; }
         [Required]
         public string Title { get; set; }
-        [Required]
         public string Image { get; set; }
         [Required]
         public string Price { get; set; } 
@@ -17,5 +16,6 @@ namespace API.DTOs
         public string Location { get; set; }
         public ICollection<ReviewDto> Reviews { get; set; }
         public int UserId { get; set; }
+        public IFormFile File { get; set; }
     }
 }

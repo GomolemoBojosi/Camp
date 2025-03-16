@@ -12,27 +12,32 @@ namespace API.Data
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
+        private readonly IPhotoService _photoService;
 
-        public CampgroundRepository(DataContext context, IMapper mapper)
+        public CampgroundRepository(DataContext context, IMapper mapper, IPhotoService photoService)
         {
             _context = context;
             _mapper = mapper;
+            _photoService = photoService;
         }
 
         public async Task<ActionResult<Campground>> AddCampgroundAsync(CampgroundDto campgroundDto)
         {
+
             if (await CampgroundExists(campgroundDto.Title))
             {
                 throw new Exception("Campground already exists");
             }
 
+            var imageResult = await _photoService.AddPhotoAsync(campgroundDto.File);
+            
             var campground = new Campground()
             {
                 Title = campgroundDto.Title,
                 Location = campgroundDto.Location,
                 Price = campgroundDto.Price,
                 Description = campgroundDto.Description,
-                Image = campgroundDto.Image,
+                Image = imageResult?.SecureUrl.AbsoluteUri,
                 UserId = campgroundDto.UserId,
             };
 
