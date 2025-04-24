@@ -1,11 +1,18 @@
-<div>
+<div class="welcome">
   <ng-container *ngIf="(accountService.currentUser$ | async) === null">
     <div *ngIf="!registerMode">
+      <h2 class="text-center text-primary">Welcome To The Camp Platform</h2>
+      <h5 class="text-center">Please feel free to browse our camp sites</h5>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="(accountService.currentUser$ | async) === null">
+    <div *ngIf="!registerMode" class="text-center">
       <a class="btn btn-primary mr-2" (click)="registerToggle()">Register</a>
     </div>
   </ng-container>
 
-  <div *ngIf="registerMode">
+  <div *ngIf="registerMode" class="registerForm">
     <app-register (cancelRegister)="cancelRegisterMode($event)"></app-register>
   </div>
 </div>

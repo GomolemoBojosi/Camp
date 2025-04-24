@@ -3,6 +3,7 @@ using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,15 +30,14 @@ namespace API.Data
                 throw new Exception("Campground already exists");
             }
 
-            var imageResult = await _photoService.AddPhotoAsync(campgroundDto.File);
-            
+
             var campground = new Campground()
             {
                 Title = campgroundDto.Title,
                 Location = campgroundDto.Location,
                 Price = campgroundDto.Price,
                 Description = campgroundDto.Description,
-                Image = imageResult?.SecureUrl.AbsoluteUri,
+                Image = campgroundDto.Image,
                 UserId = campgroundDto.UserId,
             };
 
@@ -58,15 +58,16 @@ namespace API.Data
 
             _context.Campgrounds.Remove(campground);
             await _context.SaveChangesAsync();
-   
+
             return true;
         }
 
         public async Task<Campground> GetCampgroundAsync(int id)
         {
-            return await _context.Campgrounds
+            var results = await _context.Campgrounds
                 .Include(r => r.Reviews)
                 .SingleOrDefaultAsync(x => x.Id == id);
+            return results;
         }
 
         public async Task<IEnumerable<CampgroundDto>> GetCampgroundsAsync()
@@ -78,11 +79,10 @@ namespace API.Data
 
         public async Task<CampgroundDto> GetCampgroundByIdAsync(int id)
         {
-            var results = await _context.Campgrounds
-                .Where(x => x.Id == id)
-                .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync();
-            return results;
+            return await _context.Campgrounds
+                        .Where(x => x.Id == id)
+                        .ProjectTo<CampgroundDto>(_mapper.ConfigurationProvider)
+                        .SingleOrDefaultAsync();
         }
 
         public async Task<Campground> UpdateCampgroundAsync(CampgroundUpdateDto campgroundUpdateDto)
@@ -101,9 +101,40 @@ namespace API.Data
             return campground;
         }
 
+        public async Task<ActionResult<PhotoDto>> AddPhotoAsync(IFormFile file, int campgroundId)
+        {
+            var campground = await GetCampgroundAsync(campgroundId);
+
+            var result = await _photoService.AddPhotoAsync(file);
+
+            if (result.Error != null)
+            {
+                throw new Exception(result.Error.Message);
+            }
+
+            var photo = new Photo
+            {
+                Url = result.SecureUrl.AbsoluteUri,
+                PublicId = result.PublicId,
+                CampgroundId = campgroundId,
+            };
+
+            campground.Photos.Add(photo);
+
+            await _context.SaveChangesAsync();
+
+            return _mapper.Map<PhotoDto>(photo);
+        }
+
+
         private async Task<bool> CampgroundExists(string title)
         {
             return await _context.Campgrounds.AnyAsync(c => c.Title == title.ToLower());
+        }
+
+        public async Task<bool> SaveAllAsync()
+        {
+            return await _context.SaveChangesAsync() > 1;
         }
     }
 }

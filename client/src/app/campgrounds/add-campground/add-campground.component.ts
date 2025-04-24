@@ -44,7 +44,6 @@ export class AddCampgroundComponent implements OnInit {
     }
 
     this.campgroundService.addCampground(campData).subscribe(results => {
-      console.log(results);
       this.toastr.success("camp site successfully added");
       this.router.navigateByUrl(`/campgrounds/${results.id}`);
     }, error => {

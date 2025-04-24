@@ -1,0 +1,12 @@
+.register {
+  display: flex;
+  justify-self: flex-end;
+}
+
+.registerForm {
+  margin-top: 5rem;
+}
+
+.welcome {
+  margin-top: 20rem;
+}

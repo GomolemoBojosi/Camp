@@ -18,7 +18,7 @@ namespace API.Controllers
             _campgroundRepository = campgroundRepository;
         }
 
-        [HttpGet]
+        [HttpGet(Name = "GetCampgrounds")]
         public async Task<ActionResult<IEnumerable<CampgroundDto>>> GetCampgrounds()
         {
             var results = await _campgroundRepository.GetCampgroundsAsync();
@@ -33,7 +33,7 @@ namespace API.Controllers
         }
 
         [HttpPost("new")]
-        public async Task<ActionResult<Campground>> AddCampground([FromForm] CampgroundDto campgroundDto)
+        public async Task<ActionResult<Campground>> AddCampground(CampgroundDto campgroundDto)
         {
             var results = await _campgroundRepository.AddCampgroundAsync(campgroundDto);
             return Ok(results.Value);
@@ -58,6 +58,14 @@ namespace API.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPost("add-photo")]
+        public async Task<ActionResult<PhotoDto>> AddImage(IFormFile file,[FromForm] int id)
+        {
+            var results = await _campgroundRepository.AddPhotoAsync(file, id);
+
+            return CreatedAtAction("GetCampgrounds", results.Value);
         }
     }
 }

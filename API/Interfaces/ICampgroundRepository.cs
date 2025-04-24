@@ -11,5 +11,7 @@ namespace API.Interfaces
         Task<IEnumerable<CampgroundDto>> GetCampgroundsAsync();
         Task<CampgroundDto> GetCampgroundByIdAsync(int id);
         Task<Campground> UpdateCampgroundAsync(CampgroundUpdateDto campgroundUpdateDto);
+        Task<ActionResult<PhotoDto>> AddPhotoAsync(IFormFile file, int campgroundId);
+        Task<bool> SaveAllAsync();
     }
 }

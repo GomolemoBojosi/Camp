@@ -23,8 +23,19 @@ namespace API.Data
             .HasMany(c => c.Reviews)
             .WithOne()
             .HasForeignKey(r => r.CampgroundId)
-            .OnDelete(DeleteBehavior.Cascade);  
+            .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Review>()
+            .HasOne<User>()
+            .WithMany(u => u.Reviews)
+            .HasForeignKey(r => r.UserId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Review>()
+            .HasOne<Campground>()
+            .WithMany(c => c.Reviews)
+            .HasForeignKey(r => r.CampgroundId)
+            .OnDelete(DeleteBehavior.Cascade);
             //modelBuilder.Entity<City>().Metadata.SetIsTableExcludedFromMigrations(true);
         }
     }
